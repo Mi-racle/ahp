@@ -65,7 +65,11 @@ test_set = []
 
 for i, row in data.iterrows():
 
-    entry = {'id': i, 'label': int(labels[i])}
+    entry = {'id': i}
+
+    label = [0. for _ in range(len(LABEL_ID))]
+    label[int(labels[i])] = 1.
+    entry['label'] = label
 
     scores = []
 
