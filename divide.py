@@ -39,20 +39,20 @@ USECOLS = [
 
 
 data = pd.read_excel(DATA_PATH, usecols=USECOLS)
-print(data)
 
 labels = np.array(random.choices(population=LABEL_ID, weights=LABEL_PROPORTION, k=data.__len__()))
 
 low_indices = np.where(labels == 0)[0]
-low_set = np.array(random.choices(population=SET_ID, weights=SET_PROPORTION, k=len(low_indices)))
+low_set = random.choices(population=SET_ID, weights=SET_PROPORTION, k=len(low_indices))
 
 medium_indices = np.where(labels == 1)[0]
-medium_set = np.array(random.choices(population=SET_ID, weights=SET_PROPORTION, k=len(medium_indices)))
+medium_set = random.choices(population=SET_ID, weights=SET_PROPORTION, k=len(medium_indices))
 
 high_indices = np.where(labels == 2)[0]
-high_set = np.array(random.choices(population=SET_ID, weights=SET_PROPORTION, k=len(high_indices)))
+high_set = random.choices(population=SET_ID, weights=SET_PROPORTION, k=len(high_indices))
 
 sets = np.zeros_like(labels)
+
 for i, index in enumerate(low_indices):
     sets[index] = low_set[i]
 for i, index in enumerate(medium_indices):
@@ -65,7 +65,7 @@ test_set = []
 
 for i, row in data.iterrows():
 
-    entry = {'id': i, 'label': labels[i]}
+    entry = {'id': i, 'label': int(labels[i])}
 
     scores = []
 
@@ -187,4 +187,14 @@ for i, row in data.iterrows():
         train_set.append(entry)
     else:
         test_set.append(entry)
+
+with open(TRAIN_PATH, 'w') as f:
+    train_json = json.dumps(train_set, indent=4)
+    f.write(train_json)
+    f.close()
+
+with open(TEST_PATH, 'w') as f:
+    test_json = json.dumps(test_set, indent=4)
+    f.write(test_json)
+    f.close()
 
