@@ -16,14 +16,19 @@ from utils import increment_path
 def detect(
         model: nn.Module,
         loaded_set: DataLoader,
-        loss_computer: Loss,
         output_dir: Path
 ):
+    loss_computer = Loss()
+
     total_acc = 0.
     for i, (inputs, target) in tqdm(enumerate(loaded_set), total=len(loaded_set)):
         pred = model(inputs)
-        loss = loss_computer(pred, target)
-        acc = 1. - loss.item()
+
+        # argmax = torch.argmax(target)
+        # acc = pred[0][argmax].item()
+
+        acc = target[0][torch.argmax(pred).item()].item()
+
         total_acc += acc
 
     average_acc = total_acc / len(loaded_set)
@@ -36,7 +41,7 @@ def detect(
 
 
 def run():
-    weights = 'logs/train/best.pt'
+    weights = 'logs/train20/best.pt'
     dataset = 'data/test.json'
     batch_size = 1
 
@@ -44,7 +49,6 @@ def run():
     model.load_state_dict(torch.load(weights))
     data = AHPDataset(dataset)
     loaded_set = DataLoader(dataset=data, batch_size=batch_size)
-    loss_computer = Loss()
 
     if not os.path.exists('logs'):
         os.mkdir('logs')
@@ -52,7 +56,7 @@ def run():
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
 
-    accuracy = detect(model, loaded_set, loss_computer, output_dir)
+    accuracy = detect(model, loaded_set, output_dir)
     print(f'Average accuracy: {accuracy}')
 
     print(f'\033[92mResults have been saved to {output_dir}\033[0m')

@@ -4,9 +4,9 @@ import json
 import numpy as np
 import pandas as pd
 
-# TODO
-AHP_B_WEIGHTS = [.2, .3, .5]
-AHP_C_WEIGHTS = [.1, .1, .1, .1, .1, .1, .4]
+
+AHP_B_WEIGHTS = [.6327, .0998, .2675]
+AHP_C_WEIGHTS = [.3917, .1538, .0872, .0356, .0356, .1560, .1115]
 
 C1_DELIM = [182.5, 56.5, 21.5, 1.5, 0.5]
 C2_DELIM = [0.5, 28.5, 98.5, 182.5, 364.5]
@@ -68,8 +68,8 @@ for i, row in data.iterrows():
     entry = {'id': i}
 
     label = [0. for _ in range(len(LABEL_ID))]
-    label[int(labels[i])] = 1.
-    entry['label'] = label
+    # label[int(labels[i])] = 1.
+    # entry['label'] = label
 
     scores = []
 
@@ -186,6 +186,14 @@ for i, row in data.iterrows():
     scores.append(score7)
 
     entry['scores'] = scores
+    entry['total'] = sum(scores)
+    if entry['total'] < 0.85:
+        label[2] = 1.
+    elif entry['total'] < 1.89:
+        label[1] = 1.
+    else:
+        label[0] = 1.
+    entry['label'] = label
 
     if sets[i] == 0:
         train_set.append(entry)

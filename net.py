@@ -6,7 +6,7 @@ class Net(nn.Module):
     def __init__(self, ch):
         super().__init__()
         neu_num0 = 128
-        neu_num1 = 128
+        neu_num1 = 64
         self.linear0 = nn.Linear(ch, neu_num0)
         self.linear1 = nn.Linear(neu_num0, neu_num1)
         self.fc = nn.Linear(neu_num1, 3)
