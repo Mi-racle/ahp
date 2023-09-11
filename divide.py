@@ -22,7 +22,7 @@ LABEL_PROPORTION = [.3, .4, .3]
 
 # [train set, test set]
 SET_ID = [0, 1]
-SET_PROPORTION = [.35, .65]
+SET_PROPORTION = [.65, .35]
 
 DATA_PATH = 'data/data.xlsx'
 TRAIN_PATH = 'data/train.json'

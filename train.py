@@ -39,7 +39,7 @@ def run():
     dataset = 'data/train.json'
     batch_size = 8
     epochs = 3000
-    lr = 5e-3
+    lr = 1e-3
 
     model = Net(7)
     data = AHPDataset(dataset)

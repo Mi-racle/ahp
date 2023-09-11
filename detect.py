@@ -41,7 +41,7 @@ def detect(
 
 
 def run():
-    weights = 'logs/train20/best.pt'
+    weights = 'logs/train25/best.pt'
     dataset = 'data/test.json'
     batch_size = 1
 
